@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    ports:
+      - ${DOCKER_ENV_PORT}:3355
+    environment:
+      VIRTUAL_HOST: ${DOCKER_ENV_HOST}
+      VIRTUAL_PORT: ${DOCKER_ENV_PORT}
+      LETSENCRYPT_HOST: ${DOCKER_ENV_HOST}
+      LETSENCRYPT_EMAIL: ${DOCKER_ENV_EMAIL}
+      HTTPS_METHOD: noredirect
+    networks:
+      - nginx-proxy
+      - default
+    restart: always
+
+networks:
+  nginx-proxy:
+    external:
+      name: nginx-proxy
