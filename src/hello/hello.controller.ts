@@ -4,6 +4,6 @@ import { Controller, Get } from '@nestjs/common';
 export class HelloController {
   @Get()
   findAll(): string {
-    return '🐱hello to NestJs🐱';
+    return '🔥🐱 hello to NestJs Project 🐱🔥';
   }
 }
