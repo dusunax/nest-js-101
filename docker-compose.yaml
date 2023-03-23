@@ -11,6 +11,14 @@ services:
       LETSENCRYPT_HOST: ${DOCKER_ENV_HOST}
       LETSENCRYPT_EMAIL: ${DOCKER_ENV_EMAIL}
       HTTPS_METHOD: noredirect
+      LOKI_URL: ${LOKI_URL}
+      LOKI_EXTERNAL_LABELS: "container_name={{.Name}},container_id={{.ID}},project=${LOKI_PROJECT_NAME},mode=${LOKI_MODE_NAME}"
+    logging:
+      driver: loki
+      options:
+        loki-url: ${LOKI_URL}
+        loki-external-labels: "container_name={{.Name}},container_id={{.ID}},project=${LOKI_PROJECT_NAME},mode=${LOKI_MODE_NAME}"
+
     networks:
       - nginx-proxy
       - default
