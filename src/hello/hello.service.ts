@@ -10,11 +10,11 @@ export class HelloService {
     return this.hello;
   }
 
-  createHello(greetingText: string, greetingDate: Date) {
+  createHello(greetingText: string) {
     const hello: Hello = {
       id: uuid(),
       greetingText,
-      greetingDate,
+      greetingDate: new Date(),
       status: HelloStatus.PUBILC,
     };
 
