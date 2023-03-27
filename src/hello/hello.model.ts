@@ -1,7 +1,6 @@
 export interface Hello {
   id: string;
   greetingText: string;
-  greetingDate: Date;
   status: HelloStatus;
 }
 

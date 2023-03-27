@@ -1,24 +1,32 @@
 import { Injectable } from '@nestjs/common';
-import { Hello, HelloStatus } from './hello.model';
 import { v1 as uuid } from 'uuid';
+
+import { Hello, HelloStatus } from './hello.model';
+import { CreateHelloDTO } from './dto/createHello.dto';
 
 @Injectable()
 export class HelloService {
-  private hello: Hello[] = [];
+  private hellos: Hello[] = [];
 
   getAllHellos(): Hello[] {
-    return this.hello;
+    return this.hellos;
   }
 
-  createHello(greetingText: string) {
+  getHelloById(id: string) {
+    return this.hellos.find((x) => x.id === id);
+  }
+
+  createHello(createHelloDTO: CreateHelloDTO) {
+    const { greetingText } = createHelloDTO;
+
     const hello: Hello = {
       id: uuid(),
       greetingText,
-      greetingDate: new Date(),
       status: HelloStatus.PUBILC,
     };
+    console.log(hello);
 
-    this.hello.push(hello);
+    this.hellos.push(hello);
     return hello;
   }
 }
