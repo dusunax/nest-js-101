@@ -27,9 +27,9 @@ export class PostService {
     const { id, password } = updatePostDTO;
     const prevPost = this.posts.find((post) => post.id === id);
 
-    if (!prevPost) return console.log('해당 게시글이 없습니다.');
+    if (!prevPost) throw new Error('게시글을 찾을 수 없습니다.');
     if (password !== prevPost.password)
-      return console.log('일치하지 않는 비밀번호 입니다.');
+      throw new Error('비밀번호가 일치하지 않습니다.');
 
     const updatedPost = { ...prevPost, ...updatePostDTO };
     this.posts = [...this.posts, updatedPost];
