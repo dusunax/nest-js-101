@@ -4,6 +4,18 @@ import { Controller, Get } from '@nestjs/common';
 export class MainController {
   @Get()
   findAll(): string {
-    return '<h1>🤗</h1>';
+    return `
+      <div>
+        <h1>🤗 API 🤗</h1>
+        <ul>
+          <li>
+            <a href="/post">Go to Post</a>
+          </li>
+          <li>
+            <a href="/hello">Go to Hello</a>
+          </li>
+        </ul>
+      </div>
+    `;
   }
 }
