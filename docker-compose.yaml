@@ -1,30 +1,31 @@
-version: '3'
+version: '3' # docker-compose 버전을 지정합니다.
 
-services:
-  app:
-    build: .
-    ports:
-      - ${DOCKER_ENV_PORT}:3355
-    environment:
-      VIRTUAL_HOST: ${DOCKER_ENV_HOST}
-      VIRTUAL_PORT: ${DOCKER_ENV_PORT}
-      LETSENCRYPT_HOST: ${DOCKER_ENV_HOST}
-      LETSENCRYPT_EMAIL: ${DOCKER_ENV_EMAIL}
-      HTTPS_METHOD: noredirect
-      LOKI_URL: ${LOKI_URL}
-      LOKI_EXTERNAL_LABELS: "container_name={{.Name}},container_id={{.ID}},project=${LOKI_PROJECT_NAME},mode=${LOKI_MODE_NAME}"
-    logging:
-      driver: loki
-      options:
-        loki-url: ${LOKI_URL}
-        loki-external-labels: "container_name={{.Name}},container_id={{.ID}},project=${LOKI_PROJECT_NAME},mode=${LOKI_MODE_NAME}"
+services: # 컨테이너를 정의하는 부분입니다.
 
-    networks:
-      - nginx-proxy
-      - default
-    restart: always
+  app: # app 컨테이너를 정의합니다.
+    build: . # 현재 디렉토리에서 Dockerfile을 찾아서 이미지를 빌드합니다.
+    ports: # 포트 포워딩을 설정합니다.
+      - ${DOCKER_ENV_PORT}:3355 # 호스트의 ${DOCKER_ENV_PORT}와 컨테이너의 3355번 포트를 연결합니다.
+    environment: # 환경변수를 설정합니다.
+      VIRTUAL_HOST: ${DOCKER_ENV_HOST} # 가상 호스트 이름을 설정합니다.
+      VIRTUAL_PORT: ${DOCKER_ENV_PORT} # 가상 포트 번호를 설정합니다.
+      LETSENCRYPT_HOST: ${DOCKER_ENV_HOST} # Let's Encrypt SSL 인증서를 적용할 호스트 이름을 설정합니다.
+      LETSENCRYPT_EMAIL: ${DOCKER_ENV_EMAIL} # Let's Encrypt SSL 인증서를 발급할 이메일 주소를 설정합니다.
+      HTTPS_METHOD: noredirect # HTTPS 리디렉션을 적용하지 않습니다.
+#      LOKI_URL: ${LOKI_URL} # Loki 로깅 시스템의 주소를 설정합니다.
+#      LOKI_EXTERNAL_LABELS: "container_name={{.Name}},container_id={{.ID}},project=${LOKI_PROJECT_NAME},mode=${LOKI_MODE_NAME}" # Loki 로깅 시스템에 전송할 추가 레이블을 설정합니다.
+#    logging: # 로그 드라이버를 설정합니다.
+#      driver: loki # Loki 로그 드라이버를 사용합니다.
+#      options: # 로그 드라이버 옵션을 설정합니다.
+#        loki-url: ${LOKI_URL} # Loki 로깅 시스템의 주소를 설정합니다.
+#        loki-external-labels: "container_name={{.Name}},container_id={{.ID}},project=${LOKI_PROJECT_NAME},mode=${LOKI_MODE_NAME}" # Loki 로깅 시스템에 전송할 추가 레이블을 설정합니다.
 
-networks:
-  nginx-proxy:
-    external:
-      name: nginx-proxy
+    networks: # 네트워크를 설정합니다.
+      - nginx-proxy # nginx-proxy 네트워크와 연결합니다.
+      - default # 기본 네트워크와 연결합니다.
+    restart: always # 컨테이너가 종료되었을 때 자동으로 재시작합니다.
+
+networks: # 네트워크를 정의하는 부분입니다.
+  nginx-proxy: # nginx-proxy 네트워크를 정의합니다.
+    external: # 외부 네트워크를 사용합니다.
+      name: nginx-proxy # nginx-proxy 네트워크 이름을 지정합니다.
