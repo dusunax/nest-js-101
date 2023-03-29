@@ -11,7 +11,12 @@ import { CommentService } from './comment/comment.service';
 
 @Module({
   imports: [],
-  controllers: [HelloController, MainController, PostController, CommentController],
+  controllers: [
+    HelloController,
+    MainController,
+    PostController,
+    CommentController,
+  ],
   providers: [HelloService, PostService, CommentService],
 })
 export class AppModule {}
