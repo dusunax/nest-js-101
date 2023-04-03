@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { v1 as uuid } from 'uuid';
 
 import { Post } from './post.model';
@@ -13,7 +13,13 @@ export class PostService {
   }
 
   getPostById(id: string) {
-    return this.posts.find((post) => post.id === id);
+    const found = this.posts.find((post) => post.id === id);
+    if (!found)
+      throw new NotFoundException(
+        `게시글을 찾을 수 없습니다. \n Cant't find Post with id: ${id}`,
+      );
+
+    return found;
   }
 
   createPost(createPostDTO: CreatePostDTO): Post {
@@ -36,6 +42,7 @@ export class PostService {
   }
 
   deletePostById(id: string) {
-    this.posts.filter((post) => post.id !== id);
+    const found = this.getPostById(id);
+    this.posts.filter((post) => post.id !== found.id);
   }
 }

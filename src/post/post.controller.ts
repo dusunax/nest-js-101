@@ -6,6 +6,8 @@ import {
   Delete,
   Param,
   Body,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 
 import { PostService } from './post.service';
@@ -26,11 +28,13 @@ export class PostController {
   }
 
   @PostMethod()
+  @UsePipes(ValidationPipe)
   createPost(@Body() createPostDTO: CreatePostDTO) {
     return this.postService.createPost(createPostDTO);
   }
 
   @Put()
+  @UsePipes(ValidationPipe)
   updatePost(@Body() updatePostDTO: UpdatePostDTO) {
     return this.postService.updatePost(updatePostDTO);
   }
